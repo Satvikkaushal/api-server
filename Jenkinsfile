@@ -50,7 +50,7 @@ pipeline {
             steps {
                 echo "build id = ${env.BUILD_ID}"
                 echo 'Tests passed on to build Docker container'
-                sh "gcloud builds submit -t gcr.io/dtcaugust2021-221/gcr.io/dtcaugust2021-221/api-server-image@sha256:8b91b32d30259c69df5cf98aa3ffbfd1c9e53c671d57956d8dcfa80d1494909d:v2.${env.BUILD_ID} ."
+                sh "gcloud builds submit -t gcr.io/dtcaugust2021-221/api-server-image:v2.${env.BUILD_ID} ."
             }
         }        
          stage('Stage 5') {
@@ -58,8 +58,8 @@ pipeline {
                 echo 'Get cluster credentials'
                 sh 'gcloud container clusters get-credentials events-cluster --zone asia-south1-a --project dtcaugust2021-221'
                 echo 'Update the image'
-                echo "gcr.io/dtcaugust2021-221/gcr.io/dtcaugust2021-221/api-server-image@sha256:8b91b32d30259c69df5cf98aa3ffbfd1c9e53c671d57956d8dcfa80d1494909d:v2.${env.BUILD_ID}"
-                sh "kubectl set image deployment/demo-api demo-api=gcr.io/dtcaugust2021-221/gcr.io/dtcaugust2021-221/api-server-image@sha256:8b91b32d30259c69df5cf98aa3ffbfd1c9e53c671d57956d8dcfa80d1494909d:v2.${env.BUILD_ID} --record"
+                echo "gcr.io/dtcaugust2021-221/api-server-image:v2.${env.BUILD_ID}"
+                sh "kubectl set image deployment/demo-api demo-api=gcr.io/dtcaugust2021-221/api-server-image:v2.${env.BUILD_ID} --record"
             }
         }
     }
